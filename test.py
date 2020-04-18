@@ -6,7 +6,10 @@ class Domain:
     def __init__(self, name, label=None):
         self.name = name.strip()
         self.length = len(name)
-        self.label = label
+        if label:
+            self.label = label.strip()
+        else:
+            self.label = None
         self.entropy = Domain.calEntropy(self.name)
 
     def getFeature(self):
@@ -45,9 +48,10 @@ if __name__ == "__main__":
     featureMetrix = []
     labelMetrix = []
     testMetrix = []
+
     getData('train.txt', domainList)
     getData('test.txt', testDomainList)
-    
+
     for domain in domainList:
         featureMetrix.append(domain.getFeature())
         labelMetrix.append(domain.label)
@@ -60,3 +64,4 @@ if __name__ == "__main__":
             f.write(domain.name)
             f.write(',')
             f.write(clf.predict([domain.getFeature()])[0])
+            f.write('\n')
